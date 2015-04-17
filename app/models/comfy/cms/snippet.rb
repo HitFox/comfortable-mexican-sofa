@@ -22,7 +22,7 @@ class Comfy::Cms::Snippet < ActiveRecord::Base
   validates :identifier,
     :presence   => true,
     :uniqueness => { :scope => :site_id },
-    :format     => { :with => /\A\w[a-z0-9_-]*\z/i }
+    :format     => { :with => /\A\w[\/a-z0-9_-]*\z/i }
     
   # -- Scopes ---------------------------------------------------------------
   default_scope -> { order('comfy_cms_snippets.position') }
