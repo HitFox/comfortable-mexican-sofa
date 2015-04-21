@@ -40,10 +40,15 @@ protected
       return redirect_to(new_comfy_admin_cms_site_path)
     end
   end
-
+  
   def set_locale
-    I18n.locale = ComfortableMexicanSofa.config.admin_locale || (@site && @site.locale)
-    true
+    super
+  rescue
+    I18n.locale = cms_locale
+  end
+
+  def cms_locale
+    ComfortableMexicanSofa.config.admin_locale || (@site && @site.locale)
   end
 
   def load_fixtures
