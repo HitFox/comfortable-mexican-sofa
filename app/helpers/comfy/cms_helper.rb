@@ -1,5 +1,12 @@
 module Comfy::CmsHelper
 
+  def flash_css_class(type)
+    case type.to_sym
+      when :notice, :success then 'alert-success'
+      when :alert, :failure then 'alert-danger'
+    end
+  end
+
   # Wrapper around ComfortableMexicanSofa::FormBuilder
   def comfy_form_for(record, options = {}, &proc)
     options[:builder] = ComfortableMexicanSofa::FormBuilder
