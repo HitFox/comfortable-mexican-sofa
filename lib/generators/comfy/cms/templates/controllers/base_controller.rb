@@ -1,5 +1,5 @@
-class Admin::<%= class_name.pluralize %>Controller < Admin::BaseController
-
+class Admin::BaseController < ApplicationController
+  
   #
   # Settings
   # ---------------------------------------------------------------------------------------
@@ -8,6 +8,10 @@ class Admin::<%= class_name.pluralize %>Controller < Admin::BaseController
   #
   #
   
+  layout 'comfy/admin/cms'
+  
+  helper :sort
+  
   #
   # Concerns
   # ---------------------------------------------------------------------------------------
@@ -15,6 +19,8 @@ class Admin::<%= class_name.pluralize %>Controller < Admin::BaseController
   #
   #
   #
+  
+  include Sortify, Routify
 
   #
   # Filter
@@ -23,6 +29,8 @@ class Admin::<%= class_name.pluralize %>Controller < Admin::BaseController
   #
   #
   #
+  
+  before_action :authenticate_admin!
 
   #
   # Plugins
@@ -32,6 +40,8 @@ class Admin::<%= class_name.pluralize %>Controller < Admin::BaseController
   #
   #
   
+  inherit_resources
+  
   #
   # Actions
   # ---------------------------------------------------------------------------------------
@@ -39,7 +49,6 @@ class Admin::<%= class_name.pluralize %>Controller < Admin::BaseController
   #
   #
   #
-  
   
   #
   # Protected
@@ -50,6 +59,12 @@ class Admin::<%= class_name.pluralize %>Controller < Admin::BaseController
   #
 
   protected
+  
+  def collection
+    query = apply_sorting(end_of_association_chain)
+    query = query.includes(:translations) if resource_class.respond_to?(:translations_table_name)
+    get_collection_ivar || set_collection_ivar(query)
+  end
 
   #
   # Private

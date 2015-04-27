@@ -52,6 +52,27 @@ module Comfy
         ActiveRecord::Generators::Base.next_migration_number(dirname)
       end
 
+      def generate_views
+        template 'lib/generators/comfy/cms/templates/views/index.html.haml', "app/views/admin/base/index.html.haml"
+        template 'lib/generators/comfy/cms/templates/views/show.html.haml', "app/views/admin/base/show.html.haml"
+        template 'lib/generators/comfy/cms/templates/views/new.html.haml', "app/views/admin/base/new.html.haml"
+        template 'lib/generators/comfy/cms/templates/views/edit.html.haml', "app/views/admin/base/edit.html.haml"
+        template 'lib/generators/comfy/cms/templates/views/_collection_actions.html.haml', "app/views/admin/base/_collection_actions.html.haml"
+        template 'lib/generators/comfy/cms/templates/views/_member_actions.html.haml', "app/views/admin/base/_member_actions.html.haml"
+        template 'lib/generators/comfy/cms/templates/views/_right_column.html.haml', "app/views/admin/base/_right_column.html.haml"
+        template 'lib/generators/comfy/cms/templates/views/_show.html.haml', "app/views/admin/base/_show.html.haml"
+      end
+
+      def generate_helpers
+        template 'lib/generators/comfy/cms/templates/helpers/sort_helper.rb', "app/helpers/sort_helper.rb"
+      end
+
+      def generate_base_controller
+        template 'lib/generators/comfy/cms/templates/controllers/base_controller.rb', "app/controllers/admin/base_controller.rb"
+        template 'lib/generators/comfy/cms/templates/controllers/concerns/permitify.rb', "app/controllers/concerns/permitify.rb"
+        template 'lib/generators/comfy/cms/templates/controllers/concerns/sortify.rb', "app/controllers/concerns/sortify.rb"
+        template 'lib/generators/comfy/cms/templates/controllers/concerns/routify.rb', "app/controllers/concerns/routify.rb"
+      end
     end
   end
 end
