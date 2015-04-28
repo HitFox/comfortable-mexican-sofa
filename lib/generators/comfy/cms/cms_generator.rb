@@ -27,9 +27,11 @@ module Comfy
       end
 
       def generate_routing
-        route_string  = "  comfy_route :cms_admin, :path => '/admin'\n\n"
-        route_string << "  # Make sure this routeset is defined last\n"
-        route_string << "  comfy_route :cms, :path => '/', :sitemap => false\n"
+        route_string  = "  scope ':locale', defaults: { locale: I18n.default_locale.to_s } do\n"
+        route_string << "    comfy_route :cms_admin, :path => '/admin'\n\n"
+        route_string << "    # Make sure this routeset is defined last\n"
+        route_string << "    comfy_route :cms, :path => '/', :sitemap => false\n"
+        route_string << "  end"
         route route_string[2..-1]
       end
 
@@ -61,10 +63,17 @@ module Comfy
         template 'lib/generators/comfy/cms/templates/views/_member_actions.html.haml', "app/views/admin/base/_member_actions.html.haml"
         template 'lib/generators/comfy/cms/templates/views/_right_column.html.haml', "app/views/admin/base/_right_column.html.haml"
         template 'lib/generators/comfy/cms/templates/views/_show.html.haml', "app/views/admin/base/_show.html.haml"
+        template 'lib/generators/comfy/cms/templates/views/comments/_comment.html.haml', "app/views/admin/comments/_comment.html.haml"
+        template 'lib/generators/comfy/cms/templates/views/comments/_comments.html.haml', "app/views/admin/comments/_comments.html.haml"
+        template 'lib/generators/comfy/cms/templates/views/comments/_form.html.haml', "app/views/admin/comments/_form.html.haml"
       end
 
       def generate_helpers
         template 'lib/generators/comfy/cms/templates/helpers/sort_helper.rb', "app/helpers/sort_helper.rb"
+      end
+
+      def generate_models
+        template 'lib/generators/comfy/cms/templates/models/concerns/commentable.rb', 'app/models/concerns/commentable.rb'
       end
 
       def generate_base_controller
@@ -72,6 +81,28 @@ module Comfy
         template 'lib/generators/comfy/cms/templates/controllers/concerns/permitify.rb', "app/controllers/concerns/permitify.rb"
         template 'lib/generators/comfy/cms/templates/controllers/concerns/sortify.rb', "app/controllers/concerns/sortify.rb"
         template 'lib/generators/comfy/cms/templates/controllers/concerns/routify.rb', "app/controllers/concerns/routify.rb"
+        template 'lib/generators/comfy/cms/templates/controllers/concerns/localizify.rb', "app/controllers/concerns/localizify.rb"
+      end
+
+      def generate_locales
+        template 'lib/generators/comfy/cms/templates/locales/en.yml', "config/locales/en.yml"
+        template 'lib/generators/comfy/cms/templates/locales/de.yml', "config/locales/de.yml"
+      end
+
+      def generate_initializers
+        template 'lib/generators/comfy/cms/templates/initializers/i18n.rb', 'config/initializers/i18n.rb'
+      end
+
+      def modify_application_controller
+        sentinel = /class\ ApplicationController\ \<\ ActionController\:\:Base\n/
+        in_root do
+          inject_into_file 'app/controllers/application_controller.rb', "  include Routify, Sortify, Localizify\n", { after: sentinel, verbose: false, force: true }
+        end
+      end
+
+      def generate_devise_install
+        generate('devise:install')
+        generate(:devise, 'admin')
       end
     end
   end

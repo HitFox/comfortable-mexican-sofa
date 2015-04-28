@@ -19,8 +19,8 @@ class Admin::BaseController < ApplicationController
   #
   #
   #
-  
-  include Sortify, Routify
+
+  include Permitify
 
   #
   # Filter
