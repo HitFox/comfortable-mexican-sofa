@@ -113,7 +113,7 @@ module Comfy
         generate(:devise, 'admin')
 
         template 'lib/generators/comfy/cms/templates/models/admin.rb', 'app/models/admin.rb'
-        generate(:migration, 'AddRoleIdToAdmin role_id:integer')
+        generate(:migration, 'AddRoleIdAndStateToAdmin role_id:integer state:string:index')
       end
     end
   end
