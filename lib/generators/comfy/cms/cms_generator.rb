@@ -74,14 +74,21 @@ module Comfy
 
       def generate_models
         template 'lib/generators/comfy/cms/templates/models/concerns/commentable.rb', 'app/models/concerns/commentable.rb'
+        template 'lib/generators/comfy/cms/templates/models/role.rb', 'app/models/role.rb'
+        generate(:migration, 'CreateRoles identifier:string:index name:string')
       end
 
-      def generate_base_controller
+      def generate_controllers
         template 'lib/generators/comfy/cms/templates/controllers/base_controller.rb', "app/controllers/admin/base_controller.rb"
+        template 'lib/generators/comfy/cms/templates/controllers/admins_controller.rb', "app/controllers/admin/admins_controller.rb"
+      end
+
+      def generate_controller_concerns
         template 'lib/generators/comfy/cms/templates/controllers/concerns/permitify.rb', "app/controllers/concerns/permitify.rb"
         template 'lib/generators/comfy/cms/templates/controllers/concerns/sortify.rb', "app/controllers/concerns/sortify.rb"
         template 'lib/generators/comfy/cms/templates/controllers/concerns/routify.rb', "app/controllers/concerns/routify.rb"
         template 'lib/generators/comfy/cms/templates/controllers/concerns/localizify.rb', "app/controllers/concerns/localizify.rb"
+        template 'lib/generators/comfy/cms/templates/controllers/concerns/eventify.rb', "app/controllers/concerns/eventify.rb"
       end
 
       def generate_locales
@@ -91,6 +98,7 @@ module Comfy
 
       def generate_initializers
         template 'lib/generators/comfy/cms/templates/initializers/i18n.rb', 'config/initializers/i18n.rb'
+        template 'lib/generators/comfy/cms/templates/initializers/state_machine.rb', 'config/initializers/state_machine.rb'
       end
 
       def modify_application_controller
@@ -103,6 +111,9 @@ module Comfy
       def generate_devise_install
         generate('devise:install')
         generate(:devise, 'admin')
+
+        template 'lib/generators/comfy/cms/templates/models/admin.rb', 'app/models/admin.rb'
+        generate(:migration, 'AddRoleIdToAdmin role_id:integer')
       end
     end
   end

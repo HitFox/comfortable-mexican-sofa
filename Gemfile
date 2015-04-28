@@ -5,7 +5,7 @@ gemspec
 # apps can also use will_paginate so there's no dependency in gemspec
 gem 'kaminari'
 gem 'inherited_resources'
-gem 'devise'
+gem 'state_machine'
 
 group :development do
 
