@@ -41,11 +41,12 @@ module Comfy
       end
       
       def generate_views
-        template 'views/index.haml', "app/views/admin/#{file_name.pluralize}/index.html.haml"
-        template 'views/show.haml', "app/views/admin/#{file_name.pluralize}/show.html.haml"
-        template 'views/new.haml', "app/views/admin/#{file_name.pluralize}/new.html.haml"
-        template 'views/edit.haml', "app/views/admin/#{file_name.pluralize}/edit.html.haml"
-        template 'views/_form.haml', "app/views/admin/#{file_name.pluralize}/_form.html.haml"
+        template 'views/_form.html.haml', "app/views/admin/#{file_name.pluralize}/_form.html.haml"
+        template 'views/_right_column.html.haml', "app/views/admin/#{file_name.pluralize}/_right_column.html.haml"
+        template 'views/_heading.html.haml', "app/views/admin/#{file_name.pluralize}/_heading.html.haml"
+        template 'views/_show.html.haml', "app/views/admin/#{file_name.pluralize}/_show.html.haml"
+        template 'views/_table_head.html.haml', "app/views/admin/#{file_name.pluralize}/_table_head.html.haml"
+        template 'views/_file_name.html.haml', "app/views/admin/#{file_name.pluralize}/_#{file_name}.html.haml"
       end
       
       def generate_route
