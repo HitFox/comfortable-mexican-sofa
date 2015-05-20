@@ -86,6 +86,11 @@ en:
             update: Update Site
             is_mirrored: Mirrored
 
+        left:
+          account: 'account'
+          logout: 'logout'
+          home: 'Home'
+
         layouts:
           created: Layout created
           creation_failure: Failed to create layout
