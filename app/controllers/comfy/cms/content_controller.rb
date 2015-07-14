@@ -17,6 +17,7 @@ class Comfy::Cms::ContentController < Comfy::Cms::BaseController
       respond_to do |format|
         format.html { render_page }
         format.json { render :json => @cms_page }
+        format.text { render_page }
       end
     end
   end
